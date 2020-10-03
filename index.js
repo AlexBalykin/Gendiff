@@ -1,39 +1,27 @@
 import _ from 'lodash';
+import fs from 'fs';
+import path from 'path';
 
-const q = {
-  host: 'hexlet.io',
-  timeout: 50,
-  proxy: '123.234.53.22',
-  follow: false,
-};
+export default (json1, json2) => {
+  const file1 = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), json1), 'utf8'));
+  const file2 = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), json2), 'utf8'));
 
-const w = {
-  timeout: 20,
-  verbose: true,
-  host: 'hexlet.io',
-};
-
-const gendiff = (json1, json2) => {
-  const unionKeys = _.union(_.keys(json1), _.keys(json2));
+  const unionKeys = _.union(_.keys(file1), _.keys(file2));
 
   const dif = unionKeys.sort().map((keys) => {
-    if (!_.has(json1, keys)) {
-      return `+ ${keys}: ${json2[keys]}`;
+    if (!_.has(file1, keys)) {
+      return `+ ${keys}: ${file2[keys]}`;
     }
-    if (!_.has(json2, keys)) {
-      return `- ${keys}: ${json1[keys]}`;
+    if (!_.has(file2, keys)) {
+      return `- ${keys}: ${file1[keys]}`;
     }
-    if (json2[keys] === json1[keys]) {
-      return `  ${keys}: ${json2[keys]}`;
+    if (file2[keys] === file1[keys]) {
+      return `  ${keys}: ${file2[keys]}`;
     }
-    if (_.has(json2, keys) === _.has(json1, keys)) {
-      const dif1 = `+ ${keys}: ${json2[keys]}`;
-      const dif2 = `- ${keys}: ${json1[keys]}`;
-      return [dif2, dif1];
-    }
+    const dif1 = `- ${keys}: ${file1[keys]}\n+ ${keys}: ${file2[keys]}`;
+    return [dif1];
   });
-  const result = dif.join();
+  const result = `{\n${dif.join('\n')}\n}`;
 
   console.log(result);
 };
-gendiff(q, w);

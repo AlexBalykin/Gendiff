@@ -24,4 +24,5 @@ export default (json1, json2) => {
   const result = `{\n${dif.join('\n')}\n}`;
 
   console.log(result);
+  return result;
 };

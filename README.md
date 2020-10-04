@@ -1,6 +1,6 @@
 [![Node CI](https://github.com/AlexBalykin/frontend-project-lvl2/workflows/Node%20CI/badge.svg)](https://github.com/AlexBalykin/frontend-project-lvl2/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/620ae605ea1d1fd2bd7f/maintainability)](https://codeclimate.com/github/AlexBalykin/frontend-project-lvl2/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/8a988608feb6e8f7488d/test_coverage)](https://codeclimate.com/github/AlexBalykin/frontend-project-lvl1/test_coverage)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/620ae605ea1d1fd2bd7f/test_coverage)](https://codeclimate.com/github/AlexBalykin/frontend-project-lvl2/test_coverage)
 
 ## Описание
 Вычислитель отличий – программа определяющая разницу между двумя структурами данных. Это популярная задача, для решения которой существует множество онлайн сервисов http://www.jsondiff.com/. Подобный механизм, например, используется при выводе тестов или при автоматическом отслеживании изменении в конфигурационных файлах.

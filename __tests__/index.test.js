@@ -6,9 +6,12 @@ import gendiff from '../src/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-test('gendiff.json', () => {
+test('gendiff', () => {
   const json1 = path.join(__dirname, '../__tests__/__fixtures__/file1.json');
   const json2 = path.join(__dirname, '../__tests__/__fixtures__/file2.json');
+
+  const yml1 = path.join(__dirname, '../__tests__/__fixtures__/file3.yml');
+  const yml2 = path.join(__dirname, '../__tests__/__fixtures__/file4.yml');
 
   const expected = `{
 - follow: false
@@ -20,4 +23,5 @@ test('gendiff.json', () => {
 }`;
 
   expect(gendiff(json1, json2)).toEqual(expected);
+  expect(gendiff(yml1, yml2)).toEqual(expected);
 });

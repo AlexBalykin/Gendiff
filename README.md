@@ -46,3 +46,6 @@ $ sudo npm install gendiff-aleba
 
 ### Diff yml files
 [![asciicast](https://asciinema.org/a/d4xiVrJaTiTRJckH2fCeMZogq.svg)](https://asciinema.org/a/d4xiVrJaTiTRJckH2fCeMZogq)
+
+### Diff ini files
+[![asciicast](https://asciinema.org/a/Wm3urtuOfXRpGIjMfkEeZ7JMU.svg)](https://asciinema.org/a/Wm3urtuOfXRpGIjMfkEeZ7JMU)

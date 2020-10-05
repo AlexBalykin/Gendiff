@@ -41,4 +41,8 @@ $ gendiff filepath1.json filepath2.json
 $ sudo npm install gendiff-aleba
 ```
 
+### Diff json files
 [![asciicast](https://asciinema.org/a/N3i7yl3gb5HsA2e5NOc9mjkYB.svg)](https://asciinema.org/a/N3i7yl3gb5HsA2e5NOc9mjkYB)
+
+### Diff yml files
+[![asciicast](https://asciinema.org/a/d4xiVrJaTiTRJckH2fCeMZogq.svg)](https://asciinema.org/a/d4xiVrJaTiTRJckH2fCeMZogq)

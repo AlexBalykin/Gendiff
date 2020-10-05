@@ -9,10 +9,10 @@ export default (json1, json2) => {
   const unionKeys = _.union(_.keys(file1), _.keys(file2));
 
   const dif = unionKeys.sort().map((keys) => {
-    if (!_.has(file1, keys)) {
+    if (!_.has(file1, keys) && _.has(file2, keys)) {
       return `+ ${keys}: ${file2[keys]}`;
     }
-    if (!_.has(file2, keys)) {
+    if (!_.has(file2, keys) && _.has(file1, keys)) {
       return `- ${keys}: ${file1[keys]}`;
     }
     if (file2[keys] === file1[keys]) {

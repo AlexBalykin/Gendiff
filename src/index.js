@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import path from 'path';
-import { parcerJson, parcerYml, parcerIni } from './parsers';
+import { parcerJson, parcerYml, parcerIni } from './parsers.js';
 
 export default (data1, data2) => {
   let file1 = '';

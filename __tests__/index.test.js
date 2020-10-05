@@ -1,17 +1,14 @@
-import gendiff from '../index.js';
+/* eslint-disable no-underscore-dangle */
 import path, { dirname } from 'path';
-import fs from 'fs';
 import { fileURLToPath } from 'url';
+import gendiff from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const q = JSON.parse(fs.readFileSync(path.join(__dirname, '../__fixtures__/file1.json'), 'utf8'));
-console.log(q);
-
 test('gendiff.json', () => {
-  const json1 = path.join(__dirname, '../__fixtures__/file1.json');
-  const json2 = path.join(__dirname, '../__fixtures__/file2.json');
+  const json1 = path.join(__dirname, '../__tests__/__fixtures__/file1.json');
+  const json2 = path.join(__dirname, '../__tests__/__fixtures__/file2.json');
 
   const expected = `{
 - follow: false

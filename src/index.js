@@ -1,23 +1,28 @@
 import _ from 'lodash';
-import fs from 'fs';
 import path from 'path';
-import yaml from 'js-yaml';
+import { parcerJson, parcerYml, parcerIni } from './parsers';
 
-export default (json1, json2) => {
+export default (data1, data2) => {
   let file1 = '';
   let file2 = '';
 
-  if (path.extname(json1) === '.json') {
-    file1 = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), json1), 'utf8'));
+  if (path.extname(data1) === '.json') {
+    file1 = parcerJson(data1);
   }
-  if (path.extname(json2) === '.json') {
-    file2 = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), json2), 'utf8'));
+  if (path.extname(data2) === '.json') {
+    file2 = parcerJson(data2);
   }
-  if (path.extname(json1) === '.yml') {
-    file1 = yaml.safeLoad(fs.readFileSync(path.resolve(process.cwd(), json1), 'utf8'));
+  if (path.extname(data1) === '.yml') {
+    file1 = parcerYml(data1);
   }
-  if (path.extname(json2) === '.yml') {
-    file2 = yaml.safeLoad(fs.readFileSync(path.resolve(process.cwd(), json2), 'utf8'));
+  if (path.extname(data2) === '.yml') {
+    file2 = parcerYml(data2);
+  }
+  if (path.extname(data1) === '.ini') {
+    file1 = parcerIni(data1);
+  }
+  if (path.extname(data2) === '.ini') {
+    file2 = parcerIni(data2);
   }
 
   const unionKeys = _.union(_.keys(file1), _.keys(file2));

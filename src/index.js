@@ -1,10 +1,24 @@
 import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
+import yaml from 'js-yaml';
 
 export default (json1, json2) => {
-  const file1 = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), json1), 'utf8'));
-  const file2 = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), json2), 'utf8'));
+  let file1 = '';
+  let file2 = '';
+
+  if (path.extname(json1) === '.json') {
+    file1 = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), json1), 'utf8'));
+  }
+  if (path.extname(json2) === '.json') {
+    file2 = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), json2), 'utf8'));
+  }
+  if (path.extname(json1) === '.yml') {
+    file1 = yaml.safeLoad(fs.readFileSync(path.resolve(process.cwd(), json1), 'utf8'));
+  }
+  if (path.extname(json2) === '.yml') {
+    file2 = yaml.safeLoad(fs.readFileSync(path.resolve(process.cwd(), json2), 'utf8'));
+  }
 
   const unionKeys = _.union(_.keys(file1), _.keys(file2));
 

@@ -1,47 +1,29 @@
 import _ from 'lodash';
 import path from 'path';
-import { parcerJson, parcerYml, parcerIni } from './parsers.js';
+import fs from 'fs';
+import parse from './parsers.js';
 
 export default (data1, data2) => {
-  let file1 = '';
-  let file2 = '';
-
-  if (path.extname(data1) === '.json') {
-    file1 = parcerJson(data1);
-  }
-  if (path.extname(data2) === '.json') {
-    file2 = parcerJson(data2);
-  }
-  if (path.extname(data1) === '.yml') {
-    file1 = parcerYml(data1);
-  }
-  if (path.extname(data2) === '.yml') {
-    file2 = parcerYml(data2);
-  }
-  if (path.extname(data1) === '.ini') {
-    file1 = parcerIni(data1);
-  }
-  if (path.extname(data2) === '.ini') {
-    file2 = parcerIni(data2);
-  }
+  const file1 = parse(fs.readFileSync(path.resolve(data1), 'utf8'),
+    path.extname(data1).slice(1));
+  const file2 = parse(fs.readFileSync(path.resolve(data2), 'utf8'),
+    path.extname(data2).slice(1));
 
   const unionKeys = _.union(_.keys(file1), _.keys(file2));
 
-  const dif = unionKeys.sort().map((keys) => {
-    if (!_.has(file1, keys) && _.has(file2, keys)) {
-      return `+ ${keys}: ${file2[keys]}`;
+  const dif = unionKeys.sort().map((key) => {
+    if (!_.has(file1, key) && _.has(file2, key)) {
+      return `  + ${key}: ${file2[key]}`;
     }
-    if (!_.has(file2, keys) && _.has(file1, keys)) {
-      return `- ${keys}: ${file1[keys]}`;
+    if (!_.has(file2, key) && _.has(file1, key)) {
+      return `  - ${key}: ${file1[key]}`;
     }
-    if (file2[keys] === file1[keys]) {
-      return `  ${keys}: ${file2[keys]}`;
+    if (_.isEqual(file2[key], file1[key])) {
+      return `    ${key}: ${file2[key]}`;
     }
-    const dif1 = `- ${keys}: ${file1[keys]}\n+ ${keys}: ${file2[keys]}`;
-    return [dif1];
+    return `  - ${key}: ${file1[key]}\n  + ${key}: ${file2[key]}`;
   });
   const result = `{\n${dif.join('\n')}\n}`;
 
-  console.log(result);
   return result;
 };

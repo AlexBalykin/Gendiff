@@ -2,9 +2,10 @@ import path from 'path';
 import fs from 'fs';
 import parse from './parsers.js';
 import getAst from './ast.js';
-import diff from './stylish.js';
+// import diff from './formatters/stylish.js';
+import plain from './formatters/plain.js';
 
-export default (data1, data2) => {
+const gendiff = (data1, data2) => {
   const file1 = parse(
     fs.readFileSync(path.resolve(data1), 'utf8'),
     path.extname(data1).slice(1),
@@ -16,5 +17,6 @@ export default (data1, data2) => {
 
   const tree = getAst(file1, file2);
 
-  return diff(tree);
+  return plain(tree);
 };
+console.log(gendiff('q.json', 'w.json'));

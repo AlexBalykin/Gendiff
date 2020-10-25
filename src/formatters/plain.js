@@ -7,12 +7,12 @@ const stringify = (value) => {
   return !_.isObject(value) ? `'${value}'` : '[complex value]';
 };
 
-const plain = (arr, path = '') => {
+const getPlain = (arr, path = '') => {
   const result = arr.map((i) => {
     const fullPath = `${path}${i.key}`;
 
     const obj = {
-      head: () => plain(i.ast, `${path}${i.key}.`),
+      head: () => getPlain(i.ast, `${path}${i.key}.`),
       added: () => `Property '${fullPath}' was added with value: ${stringify(i.value)}`,
       removed: () => `Property '${fullPath}' was removed`,
       unchanged: () => '',
@@ -24,4 +24,4 @@ const plain = (arr, path = '') => {
 
   return result.filter((i) => /\S/.test(i)).join('\n');
 };
-export default plain;
+export default getPlain;

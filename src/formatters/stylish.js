@@ -1,37 +1,32 @@
 import _ from 'lodash';
 
-const stringify = (value, space = '  ') => {
-  if (!_.isObject(value)) {
-    return value;
+const getSpace = (deep) => ' '.repeat(deep);
+
+const stringify = (data, deep) => {
+  if (!_.isObject(data)) {
+    return data;
   }
-
-  const i = Object.entries(value)
-    .map(([key, v]) => `{\n${space.repeat(6)}${key}: ${stringify(v)}\n${space.repeat(4)}}`);
-
-  return i;
+  const space = getSpace(deep);
+  const result = Object.entries(data)
+    .map(([key, value]) => `${space}    ${key}: ${stringify(value, deep + 4)}`);
+  return `{\n${result.join('\n')}\n${space}}`;
 };
 
-const diff = (arr) => {
-  const space = '  ';
+const getStylish = (arr, deep = 0) => {
+  const space = getSpace(deep);
   const result = arr.map((i) => {
-    if (i.status === 'head') {
-      return `${space.repeat(3)}${i.key}: ${diff(i.ast)}`;
-    }
-    if (i.status === 'added') {
-      return `${space.repeat(3)}+ ${i.key}: ${stringify(i.value)}`;
-    }
-    if (i.status === 'removed') {
-      return `${space.repeat(3)}- ${i.key}: ${stringify(i.value)}`;
-    }
-    if (i.status === 'unchanged') {
-      return `${space.repeat(3)}  ${i.key}: ${stringify(i.value)}`;
-    }
+    const obj = {
+      head: () => `${space}    ${i.key}: ${getStylish(i.ast, deep + 4)}`,
+      added: () => `${space}  + ${i.key}: ${stringify(i.value, deep + 4)}`,
+      removed: () => `${space}  - ${i.key}: ${stringify(i.value, deep + 4)}`,
+      unchanged: () => `${space}    ${i.key}: ${stringify(i.value, deep + 4)}`,
+      changed: () => `${space}  - ${i.key}: ${stringify(i.oldValue, deep + 4)
+      }\n${space}  + ${i.key}: ${stringify(i.newValue, deep + 4)}`,
+    };
 
-    return `${space.repeat(3)}- ${i.key}: ${stringify(
-      i.oldValue,
-    )}\n${space.repeat(3)}+ ${i.key}: ${stringify(i.newValue)}`;
+    return obj[i.status]();
   });
 
-  return `{\n${result.join('\n')}\n${space.repeat(2)}}`;
+  return `{\n${result.join('\n')}\n${space}}`;
 };
-export default diff;
+export default getStylish;

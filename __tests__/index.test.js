@@ -9,19 +9,13 @@ const __dirname = dirname(__filename);
 
 const getPath = (str) => path.join(__dirname, `../__tests__/__fixtures__/${str}`);
 
-test('gendiff', () => {
-  const json1 = getPath('file1.json');
-  const json2 = getPath('file2.json');
-
-  const yml1 = path.join(__dirname, '../__tests__/__fixtures__/file3.yml');
-  const yml2 = path.join(__dirname, '../__tests__/__fixtures__/file4.yml');
-
-  const ini1 = path.join(__dirname, '../__tests__/__fixtures__/file5.ini');
-  const ini2 = path.join(__dirname, '../__tests__/__fixtures__/file6.ini');
-
-  const expected = fs.readFileSync(path.join(__dirname, '../__tests__/__fixtures__/expected'), 'utf8');
-
-  expect(gendiff(json1, json2)).toEqual(expected);
-  expect(gendiff(yml1, yml2)).toEqual(expected);
-  expect(gendiff(ini1, ini2)).toEqual(expected);
+test.each([
+  ['file1.json', 'file2.json', 'stylish', 'equal stylish'],
+  ['file3.yml', 'file4.yml', 'plain', 'equal plain'],
+  ['file5.ini', 'file6.ini', 'json', 'equal json'],
+])('.add(%s)', (data1, data2, format, equal) => {
+  const file1 = getPath(data1);
+  const file2 = getPath(data2);
+  const equalFormat = fs.readFileSync(getPath(equal), 'utf8');
+  expect(gendiff(file1, file2, format)).toEqual(equalFormat);
 });

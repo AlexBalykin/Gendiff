@@ -15,7 +15,8 @@ const stringify = (data, deep) => {
 const getDeepSpace = (deep) => getSpace(deep);
 
 const mapping = {
-  kids: (node, deep, iter) => `${getDeepSpace(deep)}    ${node.key}: {\n${iter(node.ast, deep + 4).join('\n')}\n${getSpace(deep + 4)}}`,
+  kids: (node, deep, iter) => `${getDeepSpace(deep)}    ${
+    node.key}: {\n${iter(node.ast, deep + 4).join('\n')}\n${getSpace(deep + 4)}}`,
   added: (node, deep) => `${getDeepSpace(deep)}  + ${node.key}: ${stringify(node.value, deep + 4)}`,
   removed: (node, deep) => `${getDeepSpace(deep)}  - ${node.key}: ${stringify(node.value, deep + 4)}`,
   unchanged: (node, deep) => `${getDeepSpace(deep)}    ${node.key}: ${stringify(node.value, deep + 4)}`,

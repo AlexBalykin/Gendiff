@@ -10,9 +10,9 @@ const __dirname = dirname(__filename);
 const getPath = (str) => path.join(__dirname, `../__tests__/__fixtures__/${str}`);
 
 test.each([
-  ['file1.json', 'file2.json', 'stylish', 'stylish'],
-  ['file3.yml', 'file4.yml', 'plain', 'plain'],
-  ['file5.ini', 'file6.ini', 'json', 'json'],
+  ['file1.json', 'file2.json', 'stylish', 'stylish.txt'],
+  ['file3.yml', 'file4.yml', 'plain', 'plain.txt'],
+  ['file5.ini', 'file6.ini', 'json', 'json.txt'],
 ])('.add(%s)', (data1, data2, format, equal) => {
   const file1 = getPath(data1);
   const file2 = getPath(data2);

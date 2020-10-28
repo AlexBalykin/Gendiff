@@ -12,28 +12,15 @@ const stringify = (data, deep) => {
   return `{\n${result.join('\n')}\n${space}}`;
 };
 
+const getDeepSpace = (deep) => getSpace(deep);
+
 const mapping = {
-  kids: (node, deep, iter) => {
-    const space = getSpace(deep);
-    return `${space}    ${node.key}: {\n${iter(node.ast, deep + 4).join('\n')}\n${getSpace(deep + 4)}}`;
-  },
-  added: (node, deep) => {
-    const space = getSpace(deep);
-    return `${space}  + ${node.key}: ${stringify(node.value, deep + 4)}`;
-  },
-  removed: (node, deep) => {
-    const space = getSpace(deep);
-    return `${space}  - ${node.key}: ${stringify(node.value, deep + 4)}`;
-  },
-  unchanged: (node, deep) => {
-    const space = getSpace(deep);
-    return `${space}    ${node.key}: ${stringify(node.value, deep + 4)}`;
-  },
-  changed: (node, deep) => {
-    const space = getSpace(deep);
-    return `${space}  - ${node.key}: ${stringify(node.oldValue, deep + 4)
-    }\n${space}  + ${node.key}: ${stringify(node.newValue, deep + 4)}`;
-  },
+  kids: (node, deep, iter) => `${getDeepSpace(deep)}    ${node.key}: {\n${iter(node.ast, deep + 4).join('\n')}\n${getSpace(deep + 4)}}`,
+  added: (node, deep) => `${getDeepSpace(deep)}  + ${node.key}: ${stringify(node.value, deep + 4)}`,
+  removed: (node, deep) => `${getDeepSpace(deep)}  - ${node.key}: ${stringify(node.value, deep + 4)}`,
+  unchanged: (node, deep) => `${getDeepSpace(deep)}    ${node.key}: ${stringify(node.value, deep + 4)}`,
+  changed: (node, deep) => `${getDeepSpace(deep)}  - ${node.key}: ${stringify(node.oldValue, deep + 4)
+  }\n${getDeepSpace(deep)}  + ${node.key}: ${stringify(node.newValue, deep + 4)}`,
 };
 
 const getStylish = (tree) => {

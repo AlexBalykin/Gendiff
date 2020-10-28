@@ -24,9 +24,8 @@ const mapping = {
   }\n${getDeepSpace(deep)}  + ${node.key}: ${stringify(node.newValue, deep + 4)}`,
 };
 
-const getStylish = (tree) => {
+export default (tree) => {
   const iter = (node, deep) => node.map((item) => mapping[item.status](item, deep, iter));
 
   return `{\n${iter(tree, 0).join('\n')}\n}`;
 };
-export default getStylish;

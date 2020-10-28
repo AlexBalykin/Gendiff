@@ -7,21 +7,25 @@ const stringify = (value) => {
   return !_.isObject(value) ? `'${value}'` : '[complex value]';
 };
 
-const getPlain = (arr, path = '') => {
-  const result = arr.map((i) => {
-    const fullPath = `${path}${i.key}`;
-
-    const obj = {
-      head: () => getPlain(i.ast, `${path}${i.key}.`),
-      added: () => `Property '${fullPath}' was added with value: ${stringify(i.value)}`,
-      removed: () => `Property '${fullPath}' was removed`,
-      unchanged: () => '',
-      changed: () => `Property '${fullPath}' was updated. From ${stringify(i.oldValue)} to ${stringify(i.newValue)}`,
-    };
-
-    return obj[i.status]();
-  });
-
-  return result.filter((i) => /\S/.test(i)).join('\n');
+const mapping = {
+  kids: (node, path, iter) => iter(node.ast, [...path, node.key]),
+  added: (node, path) => {
+    const prop = [...path, node.key].join('.');
+    return `Property '${prop}' was added with value: ${stringify(node.value)}`;
+  },
+  removed: (node, path) => {
+    const prop = [...path, node.key].join('.');
+    return `Property '${prop}' was removed`;
+  },
+  changed: (node, path) => {
+    const prop = [...path, node.key].join('.');
+    return `Property '${prop}' was updated. From ${stringify(node.oldValue)
+    } to ${stringify(node.newValue)}`;
+  },
+  unchanged: () => [],
 };
-export default getPlain;
+
+export default (tree) => {
+  const iter = (node, path) => node.flatMap((item) => mapping[item.status](item, path, iter));
+  return iter(tree, []).join('\n');
+};

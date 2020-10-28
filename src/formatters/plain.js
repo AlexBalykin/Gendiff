@@ -7,21 +7,14 @@ const stringify = (value) => {
   return !_.isObject(value) ? `'${value}'` : '[complex value]';
 };
 
+const getpath = (node, path) => [...path, node.key].join('.');
+
 const mapping = {
   kids: (node, path, iter) => iter(node.ast, [...path, node.key]),
-  added: (node, path) => {
-    const prop = [...path, node.key].join('.');
-    return `Property '${prop}' was added with value: ${stringify(node.value)}`;
-  },
-  removed: (node, path) => {
-    const prop = [...path, node.key].join('.');
-    return `Property '${prop}' was removed`;
-  },
-  changed: (node, path) => {
-    const prop = [...path, node.key].join('.');
-    return `Property '${prop}' was updated. From ${stringify(node.oldValue)
-    } to ${stringify(node.newValue)}`;
-  },
+  added: (node, path) => `Property '${getpath(node, path)}' was added with value: ${stringify(node.value)}`,
+  removed: (node, path) => `Property '${getpath(node, path)}' was removed`,
+  changed: (node, path) => `Property '${getpath(node, path)}' was updated. From ${stringify(node.oldValue)
+  } to ${stringify(node.newValue)}`,
   unchanged: () => [],
 };
 

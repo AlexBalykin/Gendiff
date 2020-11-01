@@ -8,8 +8,8 @@ program
   .helpOption('-h, --help', 'output usage information')
   .option('-f, --format [type]', 'output format: json, plain, stylish', 'stylish')
   .arguments('<filepath1> <filepath2>')
-  .action((file1, file2) => {
-    console.log(gendiff(file1, file2, program.format));
+  .action((data1, data2) => {
+    console.log(gendiff(data1, data2, program.format));
   });
 
 program.parse(process.argv);

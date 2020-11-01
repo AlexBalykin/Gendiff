@@ -10,7 +10,7 @@ const stringify = (value) => {
 const getPath = (node, path) => [...path, node.key].join('.');
 
 const mapping = {
-  kids: (node, path, iter) => iter(node.ast, [...path, node.key]),
+  children: (node, path, iter) => iter(node.ast, [...path, node.key]),
   added: (node, path) => `Property '${getPath(node, path)}' was added with value: ${stringify(node.value)}`,
   removed: (node, path) => `Property '${getPath(node, path)}' was removed`,
   changed: (node, path) => `Property '${getPath(node, path)}' was updated. From ${stringify(node.oldValue)

@@ -1,31 +1,31 @@
 import _ from 'lodash';
 
-const getSpace = (deep) => ' '.repeat(deep);
+const getSpace = (depth) => ' '.repeat(depth);
 
-const stringify = (data, deep) => {
+const stringify = (data, depth) => {
   if (!_.isObject(data)) {
     return data;
   }
-  const space = getSpace(deep);
+  const space = getSpace(depth);
   const result = Object.entries(data)
-    .map(([key, value]) => `${space}    ${key}: ${stringify(value, deep + 4)}`);
+    .map(([key, value]) => `${space}    ${key}: ${stringify(value, depth + 4)}`);
   return `{\n${result.join('\n')}\n${space}}`;
 };
 
-const getDeepSpace = (deep) => getSpace(deep);
+const getDeepSpace = (depth) => getSpace(depth);
 
 const mapping = {
-  kids: (node, deep, iter) => `${getDeepSpace(deep)}    ${
-    node.key}: {\n${iter(node.ast, deep + 4).join('\n')}\n${getSpace(deep + 4)}}`,
-  added: (node, deep) => `${getDeepSpace(deep)}  + ${node.key}: ${stringify(node.value, deep + 4)}`,
-  removed: (node, deep) => `${getDeepSpace(deep)}  - ${node.key}: ${stringify(node.value, deep + 4)}`,
-  unchanged: (node, deep) => `${getDeepSpace(deep)}    ${node.key}: ${stringify(node.value, deep + 4)}`,
-  changed: (node, deep) => `${getDeepSpace(deep)}  - ${node.key}: ${stringify(node.oldValue, deep + 4)
-  }\n${getDeepSpace(deep)}  + ${node.key}: ${stringify(node.newValue, deep + 4)}`,
+  children: (node, depth, iter) => `${getDeepSpace(depth)}    ${
+    node.key}: {\n${iter(node.ast, depth + 4).join('\n')}\n${getSpace(depth + 4)}}`,
+  added: (node, depth) => `${getDeepSpace(depth)}  + ${node.key}: ${stringify(node.value, depth + 4)}`,
+  removed: (node, depth) => `${getDeepSpace(depth)}  - ${node.key}: ${stringify(node.value, depth + 4)}`,
+  unchanged: (node, depth) => `${getDeepSpace(depth)}    ${node.key}: ${stringify(node.value, depth + 4)}`,
+  changed: (node, depth) => `${getDeepSpace(depth)}  - ${node.key}: ${stringify(node.oldValue, depth + 4)
+  }\n${getDeepSpace(depth)}  + ${node.key}: ${stringify(node.newValue, depth + 4)}`,
 };
 
 export default (tree) => {
-  const iter = (node, deep) => node.map((item) => mapping[item.status](item, deep, iter));
+  const iter = (node, depth) => node.map((item) => mapping[item.status](item, depth, iter));
 
   return `{\n${iter(tree, 0).join('\n')}\n}`;
 };

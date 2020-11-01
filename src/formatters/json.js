@@ -1,2 +1,2 @@
-const getJson = (arr) => JSON.stringify(arr);
+const getJson = (tree) => JSON.stringify(tree);
 export default getJson;

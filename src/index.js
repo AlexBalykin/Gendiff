@@ -4,8 +4,8 @@ import parse from './parsers.js';
 import getAst from './ast.js';
 import getFormat from './formatters/index.js';
 
-const getPath = (str) => fs.readFileSync(path.resolve(str), 'utf8');
-const getExtname = (str) => path.extname(str).slice(1);
+const getPath = (data) => fs.readFileSync(path.resolve(data), 'utf8');
+const getExtname = (data) => path.extname(data).slice(1);
 
 export default (data1, data2, format = 'stylish') => {
   const file1 = parse(getPath(data1), getExtname(data1));

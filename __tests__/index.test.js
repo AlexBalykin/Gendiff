@@ -7,7 +7,7 @@ import gendiff from '../src/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getPath = (str) => path.join(__dirname, `../__tests__/__fixtures__/${str}`);
+const getPath = (data) => path.join(__dirname, `../__tests__/__fixtures__/${data}`);
 
 test.each([
   ['file1.json', 'file2.json', 'stylish', 'stylish.txt'],

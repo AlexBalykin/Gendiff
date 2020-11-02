@@ -4,13 +4,13 @@ import parse from './parsers.js';
 import getAst from './ast.js';
 import getFormat from './formatters/index.js';
 
-const getPath = (data) => fs.readFileSync(path.resolve(data), 'utf8');
+const getPath = (filePath) => fs.readFileSync(path.resolve(filePath), 'utf8');
 const getExtname = (data) => path.extname(data).slice(1);
 
-export default (data1, data2, format = 'stylish') => {
-  const file1 = parse(getPath(data1), getExtname(data1));
-  const file2 = parse(getPath(data2), getExtname(data2));
-  const tree = getAst(file1, file2);
+export default (filePath1, filePath2, format = 'stylish') => {
+  const data1 = parse(getPath(filePath1), getExtname(filePath1));
+  const data2 = parse(getPath(filePath2), getExtname(filePath2));
+  const tree = getAst(data1, data2);
 
   return getFormat(tree, format);
 };

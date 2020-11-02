@@ -5,7 +5,7 @@ import getAst from './ast.js';
 import getFormat from './formatters/index.js';
 
 const getPath = (filePath) => fs.readFileSync(path.resolve(filePath), 'utf8');
-const getExtname = (data) => path.extname(data).slice(1);
+const getExtname = (fileExtname) => path.extname(fileExtname).slice(1);
 
 export default (filePath1, filePath2, format = 'stylish') => {
   const data1 = parse(getPath(filePath1), getExtname(filePath1));

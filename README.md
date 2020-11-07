@@ -38,7 +38,7 @@ $ gendiff filepath1.json filepath2.json
 
 ## Install
 ```sh
-$ sudo npm install gendiff-aleba
+$ npm install gendiff-aleba
 ```
 
 ### Diff example

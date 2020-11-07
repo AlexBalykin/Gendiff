@@ -1,10 +1,17 @@
-import _ from 'lodash';
-
 const stringify = (value) => {
-  if (_.isBoolean(value) || _.isNumber(value)) {
+  if (value === null) {
     return value;
   }
-  return !_.isObject(value) ? `'${value}'` : '[complex value]';
+
+  if (typeof value === 'object') {
+    return '[complex value]';
+  }
+
+  if (typeof value === 'string') {
+    return `'${value}'`;
+  }
+
+  return value;
 };
 
 const getPath = (node, path) => [...path, node.key].join('.');
